@@ -420,7 +420,6 @@ def page_model():
 
             # plt.title('Curva Recuperación versus P80',fontsize=22)
             st.pyplot(fig1)
-            st.write("pasó por la 399")
 
             metric(
                 "Simulated Recovery",
