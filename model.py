@@ -274,6 +274,13 @@ def page_model():
         st.session_state.x = df_test["p80"]
         st.session_state.y = df_test["Recovery"]
 
+        ## ESTE ES EL PEDAZO INSERTADO ********************************
+        
+        p8 = df_test["p80"].tolist()
+        rec = df_test["Recovery"].tolist()
+
+        ## ESTE ES EL PEDAZO INSERTADO ********************************
+        
         p80_min = df_test["p80"].min()
         p80_max = df_test["p80"].max()
 
@@ -391,13 +398,23 @@ def page_model():
                 color=color2,
             )
 
-            ## ESTE ES EL PEDAZO INSERTADO
-            # Create a figure and an axis
-            fig1, ax = plt.subplots(figsize=(12, 8))
+            ## ESTE ES EL PEDAZO INSERTADO *********************************
+            x = np.array(p8)
+            y = np.array(rec)
+            spline = CubicSpline(x, y)
 
-            # Add a line to the axis
-            ax.plot([1, 2, 3], [4, 5, 6])
-            ## ESTE ES EL PEDAZO INSERTADO
+            # Evaluar la spline en una serie de puntos más densos
+            x_new = np.linspace(x.min(), x.max(), 100)
+            y_new = spline(x_new)
+
+            # Graficar la curva
+            fig1, ax = plt.subplots(figsize=(6.5, 4))
+            ax.plot(x, y, "o", label="Puntos Originales")
+            ax.plot(x_new, y_new, "-", label="Curva Ajustada")
+            ax.set_xlabel("P80 (µm)", fontsize=22)
+            ax.set_ylabel("Recovery (%)", fontsize=22)
+            ax.tick_params(axis="both", labelsize=15)
+            ## ESTE ES EL PEDAZO INSERTADO ********************************
 
             ax2.set_ylabel("Count", color=color2)
 
