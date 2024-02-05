@@ -408,7 +408,7 @@ def page_model():
             y_new = spline(x_new)
 
             # Graficar la curva
-            fig1, ax = plt.subplots(figsize=(6.5, 4))
+            fig1, ax = plt.subplots(figsize=(12,8))
             ax.plot(x, y, "o", label="Puntos Originales")
             ax.plot(x_new, y_new, "-", label="Curva Ajustada")
             ax.set_xlabel("P80 (µm)", fontsize=22)
