@@ -275,12 +275,12 @@ def page_model():
         st.session_state.y = df_test["Recovery"]
 
         ## ESTE ES EL PEDAZO INSERTADO ********************************
-        
+
         p8 = df_test["p80"].tolist()
         rec = df_test["Recovery"].tolist()
 
         ## ESTE ES EL PEDAZO INSERTADO ********************************
-        
+
         p80_min = df_test["p80"].min()
         p80_max = df_test["p80"].max()
 
@@ -404,11 +404,12 @@ def page_model():
             spline = CubicSpline(x, y)
 
             # Evaluar la spline en una serie de puntos más densos
-            x_new = np.linspace(x.min(), x.max(), 100)
+            tramo = x.max() - x.min()
+            x_new = np.linspace(x.min() - tramo * 0.05, x.max() + tramo * 0.05, 100)
             y_new = spline(x_new)
 
             # Graficar la curva
-            fig1, ax = plt.subplots(figsize=(12,8))
+            fig1, ax = plt.subplots(figsize=(12, 8))
             ax.plot(x, y, "o", label="Puntos Originales")
             ax.plot(x_new, y_new, "-", label="Curva Ajustada")
             ax.set_xlabel("P80 (µm)", fontsize=22)
