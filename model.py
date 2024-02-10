@@ -230,9 +230,7 @@ def page_model():
 
     if contador == node_number - 2:
         with col32:
-            st.subheader(
-                "Recovery versus P80 Graph 3.2"
-            )  # Este es el título del gráfico
+            st.subheader("Recovery versus P80 Graph")  # Este es el título del gráfico
             rec_list = []
             rec_list.append(0)
         with col44:
