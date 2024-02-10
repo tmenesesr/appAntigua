@@ -230,7 +230,9 @@ def page_model():
 
     if contador == node_number - 2:
         with col32:
-            st.subheader("Recovery versus P80 Graph")
+            st.subheader(
+                "Recovery versus P80 Graph 3.2"
+            )  # Este es el título del gráfico
             rec_list = []
             rec_list.append(0)
         with col44:
@@ -346,7 +348,7 @@ def page_model():
             y_new = f(x_new)
             plt.rcParams.update({"font.size": 16})
             fig1, ax = plt.subplots(figsize=(12, 8))
-            ax2 = ax.twinx()
+            # ax2 = ax.twinx()
             plt.grid(True, axis="y", linewidth=0.2, color="gray", linestyle="-")
             ax.fill_between(x_new, y_new, alpha=0.1, color=color1, linewidth=2)
             ax.fill_between(
@@ -391,17 +393,10 @@ def page_model():
                 linewidth=2,
             )
 
-            ax2 = sns.histplot(
-                df_rand,
-                x="Simulated_p80_check",
-                bins=20,
-                color=color2,
-            )
-
             ## ESTE ES EL PEDAZO INSERTADO *********************************
             x = np.array(p8)
             y = np.array(rec)
-            spline = CubicSpline(x, y)
+            spline = CubicSpline(x, y, bc_type="natural")
 
             # Evaluar la spline en una serie de puntos más densos
             tramo = x.max() - x.min()
@@ -410,14 +405,21 @@ def page_model():
 
             # Graficar la curva
             fig1, ax = plt.subplots(figsize=(12, 8))
-            ax.plot(x, y, "o", label="Puntos Originales")
-            ax.plot(x_new, y_new, "-", label="Curva Ajustada")
+            ax2 = ax.twinx()
+
+            ax.plot(x, y, "o", label="Puntos Originales", linewidth=2.0)
+            ax.plot(x_new, y_new, "-", label="Curva Ajustada", linewidth=3.0)
             ax.set_xlabel("P80 (µm)", fontsize=22)
             ax.set_ylabel("Recovery (%)", fontsize=22)
             ax.tick_params(axis="both", labelsize=15)
+
+            ax2 = sns.histplot(
+                df_rand, x="Simulated_p80_check", bins=20, color=color2, linewidth=1.5
+            )
+
             ## ESTE ES EL PEDAZO INSERTADO ********************************
 
-            ax2.set_ylabel("Count", color=color2)
+            ax2.set_ylabel("Count", fontsize=22)  # , color=color2)
 
             # plt.title('Curva Recuperación versus P80',fontsize=22)
             st.pyplot(fig1)
