@@ -287,8 +287,12 @@ def page_model():
         max_graph = round(p80_max * 1.1)
         min_graph = round(p80_min * 0.8)
 
+        # ACÁ ESTÁ DEFINIDO f *************************************************
+
         f = CubicSpline(st.session_state.x, st.session_state.y, bc_type="natural")
         st.session_state.f = f
+
+        # ACÁ ESTÁ DEFINIDO f *************************************************
 
         st.session_state.x1_min = df_test["p80"].iloc[0]
         slope_1 = f(st.session_state.x1_min, 1)
@@ -405,11 +409,15 @@ def page_model():
             fig1, ax = plt.subplots(figsize=(12, 8))
             ax2 = ax.twinx()
 
-            ax.plot(x, y, "o", label="Puntos Originales", linewidth=2.0)
+            ax.plot(x, y, "o", label="Puntos Originales", markersize=15.0)
             ax.plot(x_new, y_new, "-", label="Curva Ajustada", linewidth=3.0)
             ax.set_xlabel("P80 (µm)", fontsize=22)
             ax.set_ylabel("Recovery (%)", fontsize=22)
             ax.tick_params(axis="both", labelsize=15)
+
+            ax.set_axisbelow(True)
+            ax.spines["bottom"].set_linewidth(2.0)
+            ax.spines["left"].set_linewidth(2.0)
 
             ax2 = sns.histplot(
                 df_rand, x="Simulated_p80_check", bins=20, color=color2, linewidth=1.5
@@ -690,6 +698,7 @@ def page_eco():
         st.session_state.simul_recovery = df_rand[df_rand["recovery"] > 0][
             "recovery"
         ].mean()
+
         st.session_state.simul_recovery = round(st.session_state.simul_recovery, 2)
 
         st.session_state.df_rand = df_rand
@@ -734,6 +743,9 @@ def page_eco():
         ax.spines["bottom"].set_linewidth("0.3")
         ax.spines["left"].set_linewidth("0.3")
         ax.set_ylim([0, 100])
+
+        fig1, ax = plt.subplots(figsize=(12, 8))
+        ax2 = ax.twinx()
         ax.plot(
             st.session_state.x_new_1,
             st.session_state.y_new_1,
@@ -759,10 +771,10 @@ def page_eco():
 
         ## ESTE ES EL PEDAZO INSERTADO
         # Create a figure and an axis
-        fig1, ax = plt.subplots(figsize=(12, 8))
+        # fig1, ax = plt.subplots(figsize=(12, 8))
 
         # Add a line to the axis
-        ax.plot([1, 2, 3], [4, 5, 6])
+        # ax.plot([1, 2, 3], [4, 5, 6])
         ## ESTE ES EL PEDAZO INSERTADO
 
         st.pyplot(fig1)
@@ -845,6 +857,9 @@ def page_eco():
         ax.spines["bottom"].set_linewidth("0.3")
         ax.spines["left"].set_linewidth("0.3")
         ax.set_ylim([0, 100])
+
+        fig1, ax = plt.subplots(figsize=(12, 8))
+        ax2 = ax.twinx()
         ax.plot(
             st.session_state.x_new_1,
             st.session_state.y_new_1,
@@ -869,10 +884,10 @@ def page_eco():
 
         ## ESTE ES EL PEDAZO INSERTADO
         # Create a figure and an axis
-        fig1, ax = plt.subplots(figsize=(12, 8))
+        # fig1, ax = plt.subplots(figsize=(12, 8))
 
         # Add a line to the axis
-        ax.plot([1, 2, 3], [4, 5, 6])
+        # ax.plot([1, 2, 3], [4, 5, 6])
         ## ESTE ES EL PEDAZO INSERTADO
 
         st.pyplot(fig1)
