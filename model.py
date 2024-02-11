@@ -276,8 +276,8 @@ def page_model():
 
         ## ESTE ES EL PEDAZO INSERTADO ********************************
 
-        p8 = df_test["p80"].tolist()
-        rec = df_test["Recovery"].tolist()
+        # p8 = df_test["p80"].tolist()
+        # rec = df_test["Recovery"].tolist()
 
         ## ESTE ES EL PEDAZO INSERTADO ********************************
 
@@ -396,8 +396,8 @@ def page_model():
             )
 
             ## ESTE ES EL PEDAZO INSERTADO *********************************
-            x = np.array(p8)
-            y = np.array(rec)
+            x = np.array(df_test["p80"].tolist())
+            y = np.array(df_test["Recovery"].tolist())
             spline = CubicSpline(x, y, bc_type="natural")
 
             # Evaluar la spline en una serie de puntos más densos
