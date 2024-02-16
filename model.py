@@ -19,16 +19,24 @@ from PIL import Image
 
 from fpdf import FPDF
 
+# st.set_page_config(layout="wide")
+
 st.set_page_config(layout="wide")
 
 
 def main():
-    pages = {
-        "Home": page_home,
-        "Flotation Model": page_model,
-        "Sensitivity analysis": page_sensitivity,
-        "Economic Evaluation": page_eco,
-    }
+
+    if "condicion" not in st.session_state:
+        # Se ejecuta este código porque la condición es True
+        st.session_state["condicion"] = False
+
+    if st.session_state["condicion"] == False:
+        st.session_state["password"] = st.text_input("Enter password", type="password")
+
+    if st.session_state["password"] == "oscar123oscar":
+        st.session_state["condicion"] = True
+        st.session_state["password"] = ""
+        st.experimental_rerun()
 
     if "page" not in st.session_state:
         st.session_state.update(
@@ -47,9 +55,16 @@ def main():
             }
         )
 
-    with st.sidebar:
-        page = st.radio("Go to", tuple(pages.keys()))
-    pages[page]()
+    if st.session_state["condicion"] == True:
+        pages = {
+            "Home": page_home,
+            "Flotation Model": page_model,
+            "Sensitivity analysis": page_sensitivity,
+            "Economic Evaluation": page_eco,
+        }
+        with st.sidebar:
+            page = st.radio("Go to", tuple(pages.keys()))
+        pages[page]()
 
 
 def page_home():
