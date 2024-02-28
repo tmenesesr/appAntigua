@@ -6,9 +6,9 @@ from scipy.interpolate import CubicSpline
 from scipy.stats import norm
 import random
 import math
-
+import time
 import altair as alt
-
+import re
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -19,24 +19,48 @@ from PIL import Image
 
 from fpdf import FPDF
 
-# st.set_page_config(layout="wide")
+contras = pd.read_csv("contrasenas.csv")
 
-st.set_page_config(layout="wide")
+
+def es_correo_valido(correo):
+    return re.match(r"^[^@]+@[^@]+\.[^@]+$", correo)
 
 
 def main():
+    st.set_page_config(layout="wide")
 
     if "condicion" not in st.session_state:
-        # Se ejecuta este código porque la condición es True
         st.session_state["condicion"] = False
 
     if st.session_state["condicion"] == False:
-        st.session_state["password"] = st.text_input("Enter password", type="password")
+        st.title("Esta es la Pagina de Inicio del Sistema")
+        st.markdown(
+            """Todo ususario debe identificarse mediante su pawwword secreta antes de poder hacer uso del sistema"""
+        )
+        form = st.form("formulario_login")
+        correo = form.text_input("Correo electrónico")
+        contrasena = form.text_input("Contraseña", type="password")
+        submit_button = form.form_submit_button("Iniciar sesión")
 
-    if st.session_state["password"] == "oscar123oscar":
-        st.session_state["condicion"] = True
-        st.session_state["password"] = ""
-        st.experimental_rerun()
+        form_state = form.form_state
+
+        if submit_button:
+            if not correo or not contrasena:
+                st.error("Debe completar todos los campos.", icon="❌")
+                # form.reset()
+            elif not es_correo_valido(correo):
+                st.error("El correo electrónico no es válido.", icon="❌")
+            elif not (
+                len(contras.loc[contras["correo"] == correo, :]) == 1
+                and contras.loc[contras["correo"] == correo, :]["contrasena"].values[0]
+                == str(contrasena)
+            ):
+                st.error("Correo y/o contraseña inválidos.", icon="❌")
+            else:
+                st.success("Ingresando", icon="✅")
+                st.session_state["condicion"] = True
+                time.sleep(2)
+                st.rerun()
 
     if "page" not in st.session_state:
         st.session_state.update(
