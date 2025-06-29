@@ -27,7 +27,7 @@ def es_correo_valido(correo):
 
 
 def main():
-    st.set_page_config(layout="wide")
+    #st.set_page_config(layout="wide")
 
     if "condicion" not in st.session_state:
         st.session_state["condicion"] = False
