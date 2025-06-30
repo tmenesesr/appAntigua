@@ -132,7 +132,7 @@ def page_model():
     col111, col112, col113, col114, col115 = st.columns((1, 2, 2, 2, 1))
     with col113:
         global file_template
-        file_template = st.file_uploader("Upload File")
+        file_template = st.file_uploader("Sube Archivo")
         st.write("")
         st.write("")
         st.write("")
